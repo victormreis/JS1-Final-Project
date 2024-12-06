@@ -66,7 +66,7 @@ function populateStoreItems() {
 			25,
 			50,
 			5,
-			"action",
+			"Action",
 			1.99,
 			[
 				{
@@ -83,7 +83,7 @@ function populateStoreItems() {
 			22,
 			100,
 			4,
-			"action",
+			"Action",
 			1.99,
 			[
 				{
@@ -100,7 +100,7 @@ function populateStoreItems() {
 			18,
 			75,
 			5,
-			"action",
+			"Action",
 			1.99,
 			[
 				{
@@ -119,7 +119,7 @@ function populateStoreItems() {
 			18,
 			60,
 			3,
-			"romance",
+			"Romance",
 			1.99,
 			[
 				{
@@ -136,7 +136,7 @@ function populateStoreItems() {
 			15,
 			40,
 			4,
-			"romance",
+			"Romance",
 			1.99,
 			[
 				{
@@ -153,7 +153,7 @@ function populateStoreItems() {
 			17,
 			85,
 			3,
-			"romance",
+			"Romance",
 			1.99,
 			[
 				{
@@ -172,7 +172,7 @@ function populateStoreItems() {
 			20,
 			120,
 			5,
-			"comedy",
+			"Comedy",
 			1.99,
 			[
 				{
@@ -189,7 +189,7 @@ function populateStoreItems() {
 			18,
 			130,
 			4,
-			"comedy",
+			"Comedy",
 			1.99,
 			[
 				{
@@ -206,7 +206,7 @@ function populateStoreItems() {
 			12,
 			140,
 			4,
-			"comedy",
+			"Comedy",
 			1.99,
 			[
 				{
@@ -225,7 +225,7 @@ function populateStoreItems() {
 			25,
 			40,
 			2,
-			"horror",
+			"Horror",
 			1.99,
 			[
 				{
@@ -242,7 +242,7 @@ function populateStoreItems() {
 			22,
 			50,
 			3,
-			"horror",
+			"Horror",
 			1.99,
 			[
 				{
@@ -259,7 +259,7 @@ function populateStoreItems() {
 			20,
 			65,
 			3,
-			"horror",
+			"Horror",
 			1.99,
 			[
 				{
@@ -278,7 +278,7 @@ function populateStoreItems() {
 			28,
 			140,
 			4,
-			"sci-fi",
+			"Sci-fi",
 			1.99,
 			[
 				{
@@ -295,7 +295,7 @@ function populateStoreItems() {
 			28,
 			60,
 			3,
-			"sci-fi",
+			"Sci-fi",
 			1.99,
 			[
 				{
@@ -312,7 +312,7 @@ function populateStoreItems() {
 			30,
 			50,
 			3,
-			"sci-fi",
+			"Sci-fi",
 			1.99,
 			[
 				{
@@ -420,6 +420,8 @@ function displayStoreItems() {
 				};
 			})(i)
 		);
+
+      updateQuantityDisplay(filtredItems[i].id);
 	}
 }
 
@@ -541,10 +543,10 @@ function displayCartItems() {
             <tr id="tr-${storeCart.id}">
                <td> ${storeCart.id} </td>
                <td> ${storeCart.qty} </td>
-               <td> ${(storeCart.price * selectedCurrencyValue).toFixed(2)}</td>
-               <td> ${
-					(storeCart.price * selectedCurrencyValue).toFixed(2) *
-					storeCart.qty
+               <td> ${selectedCurrency === "cad" ? "$" : "R$"} ${(storeCart.price * selectedCurrencyValue).toFixed(2)}</td>
+               <td> ${selectedCurrency === "cad" ? "$" : "R$"} ${
+					((storeCart.price * selectedCurrencyValue) *
+					storeCart.qty).toFixed(2)
 				} </td>
             </tr>
             `;
@@ -563,14 +565,14 @@ function displayCartItems() {
    // displaying the total of the cart on the screen
 	sumaryDiv.innerHTML += ` 
       <hr>   
-      <p class="property">Items Subtotal: $${itemsSubtotal.toFixed(2)}</p>
-      <p class="property">Estimated Shipping: $${stimatedShipping.toFixed(
+      <p class="property">Items Subtotal: ${selectedCurrency === "cad" ? "$" : "R$"}  ${itemsSubtotal.toFixed(2)}</p>
+      <p class="property">Estimated Shipping: ${selectedCurrency === "cad" ? "$" : "R$"}${stimatedShipping.toFixed(
 			2
 		)} </p>
       <br>
-      <p class="property">Subtotal: $${stimatedSubTotal.toFixed(2)} </p>
-      <p class="property">Estimated Tax: $${stimatedTax.toFixed(2)}</p>
-      <p class="property">Order Total: $${orderTotal.toFixed(2)}</p> `;
+      <p class="property">Subtotal: ${selectedCurrency === "cad" ? "$" : "R$"}${stimatedSubTotal.toFixed(2)} </p>
+      <p class="property">Estimated Tax: ${selectedCurrency === "cad" ? "$" : "R$"}${stimatedTax.toFixed(2)}</p>
+      <p class="property">Order Total: ${selectedCurrency === "cad" ? "$" : "R$"}${orderTotal.toFixed(2)}</p> `;
 
 	cardSectionDiv.appendChild(sumaryDiv);
 }
@@ -599,6 +601,7 @@ function showReviews(productId) {
    // getting the product from the storeItems array
 	var product = storeItems.find((item) => item.id === productId);
 	var reviews = product.reviews;
+   var selectedCurrency = document.getElementById("currencySelect").value;
 
    // formating the reviews to show on the screen
 	var reviewsFormated = [];
@@ -607,11 +610,11 @@ function showReviews(productId) {
 	reviewsFormated.push(`
          Item details: ${product.id}
          Name: ${product.name}
-         Price: ${product.price}
+         Price: ${selectedCurrency === "cad" ? "$" : "R$"} ${(product.price * conversionRates[selectedCurrency]).toFixed(2)}
          Quantity on hand: ${product.qty}
          Maximum per customer: ${product.max}
          Category: ${product.category}
-         Shipping: ${product.shipping}
+         Shipping: ${selectedCurrency === "cad" ? "$" : "R$"} ${(product.shipping * conversionRates[selectedCurrency]).toFixed(2)}
          Description: ${product.description}
          `);
 
