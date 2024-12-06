@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Vitex Movie Store</title>
+      <link rel="stylesheet" href="style.css">
+   </head>
+   <body>
+
+      <header>
+         <h1>Victor Movie Store</h1>
+         <div class="header-right">
+            <div class="currency-container">
+               <img id="currency-icon" src="icons/canada.png"
+                  alt="Currency flag">
+               <span>Currency</span>
+               <select name="currencySelect" id="currencySelect"
+                  onchange="displayStoreItems(), displayCartItems()">
+                  <option value="cad">CAD</option>
+                  <option value="brl">BRL</option>
+               </select>
+            </div>
+            <div id="current-time"></div> 
+         </div>
+      </header>
+
+      <main>
+         <section class="store-section">
+            <fieldset>
+               <legend>Store Items</legend>
+
+               <select name="filterSelect" id="filterSelect"
+                  onchange="displayStoreItems()">
+                  <option value="all">All</option>
+                  <option value="action">Action</option>
+                  <option value="romance">Romance</option>
+                  <option value="comedy">Comedy</option>
+                  <option value="horror">Horror</option>
+                  <option value="sci-fi">Sci-Fi</option>
+               </select>
+
+               <h2>Store Items</h2>
+               <div class="card-container" id="card-container">
+                  <!-- Cards will be added here -->
+               </div>
+
+            </fieldset>
+         </section>
+         <section class="cart-section">
+            <fieldset>
+               <legend>Your Cart</legend>
+
+               <div id="cart">
+                  <table id="cart-table" class="cart-table">
+                     <thead>
+                        <tr> 
+                           <th>ID</th> 
+                           <th>QUANTITY</th> 
+                           <th>PRICE</th> 
+                           <th>SUBTOTAL</th> 
+                        </tr>   
+                     </thead> 
+                     <tbody id="cart-body">                  
+                        <!-- each tr will be generated here by JS -->
+                     </tbody>
+                  </table>
+               </div>               
+
+            </fieldset>
+         </section>
+
+      </main>
+
+      <script src="main.js"></script>
+   </body>
+</html>
